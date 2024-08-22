@@ -23,7 +23,7 @@ Get Users without cache: localhost:8000/no-cache
 
 In the Telescope interface, in the "Requests" section, is possible to check the requests made and the time spent on each one.
 
-Requests to /cache are generally faster than those to /no-cache, futhermore is possible to verify that requests to /cache do not query the database
+Requests to /cache are generally faster than those to /no-cache, also is possible to verify that requests to /cache do not query the database.
 
 ```
 localhost:8000/telescope
