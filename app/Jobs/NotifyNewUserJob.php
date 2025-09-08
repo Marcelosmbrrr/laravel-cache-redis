@@ -3,26 +3,24 @@
 namespace App\Jobs;
 
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 use App\Models\User;
-use App\Mail\NewUserMail;
+use App\Notifications\NewUserNotification;
 
 class NotifyNewUserJob implements ShouldQueue
 {
     use Queueable;
 
     protected User $user;
+    protected $delayTime;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $delay = 0)
     {
         $this->user = $user;
+        $this->delayTime = $delay;
     }
 
     /**
@@ -30,6 +28,6 @@ class NotifyNewUserJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->user->email)->send(new NewUserMail($this->user));
+        $this->user->notify(new NewUserNotification($this->user, $this->delayTime));
     }
 }
